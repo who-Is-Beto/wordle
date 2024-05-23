@@ -1,1 +1,4 @@
-declare type CharBoxState = "miss" | "hit" | "empty";
+declare type CharBoxState =
+  | CharBoxState.miss
+  | CharBoxState.hit
+  | CharBoxState.present;
