@@ -1,5 +1,5 @@
-import { StoreActionsTypes, themeModes } from "../enums";
-import { getRandomWord } from "../utils/word-utils";
+import { CharBoxStates, StoreActionsTypes, themeModes } from "../enums";
+import { getGuess, getRandomWord } from "../utils/word-utils";
 
 const setAnswer = (store: Store, answer: string): Store => {
   return {
@@ -37,7 +37,12 @@ const newGame = (store: Store): Store => {
     ...store,
     answer: getRandomWord().toLocaleUpperCase(),
     rows: [],
+    keyboardLetterState: {},
     gameState: "playing",
+    timeRemaining: {
+      minutes: 5,
+      seconds: 0
+    },
     guess: ""
   };
 };
@@ -63,6 +68,27 @@ const setMatchesPlayed = (store: Store): Store => {
   };
 };
 
+const toggleSeeInstructions = (store: Store): Store => {
+  return {
+    ...store,
+    seeInstructions: !store.seeInstructions
+  };
+};
+
+const setFirstTimePlaying = (store: Store): Store => {
+  return {
+    ...store,
+    firstTimePlaying: false
+  };
+};
+
+const setTimeRemaining = (store: Store, time: TimeRemaining): Store => {
+  return {
+    ...store,
+    timeRemaining: time
+  };
+};
+
 const reducers = (state: Store, action: StoreActions): Store => {
   switch (action.type) {
     case StoreActionsTypes.UPDATE_GUESS:
@@ -81,6 +107,13 @@ const reducers = (state: Store, action: StoreActions): Store => {
       return setVictories(state);
     case StoreActionsTypes.SET_MATCHES_PLAYED:
       return setMatchesPlayed(state);
+    case StoreActionsTypes.TOGGLE_SEE_INSTRUCTIONS:
+      return toggleSeeInstructions(state);
+    case StoreActionsTypes.SET_FIRST_TIME_PLAYING:
+      return setFirstTimePlaying(state);
+    case StoreActionsTypes.SET_TIME_REMAINING:
+      return setTimeRemaining(state, action.payload as TimeRemaining);
+
     default:
       return state;
   }

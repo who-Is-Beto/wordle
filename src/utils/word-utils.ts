@@ -2,9 +2,17 @@ import { CharBoxStates } from "../enums";
 import words from "../words.json";
 
 const getWordsWithSpecificLength = (length: number): string[] => {
-  const wordsWithSpecificLength = (words as Array<string>).filter(
-    (word) => word.length === length
-  );
+  const wordsWithSpecificLength = (words as Array<string>)
+    .filter((word) => word.length === length)
+    .map((word) =>
+      word
+        .normalize("NFD")
+        .replace(
+          /([^n\u0300-\u036f]|n(?!\u0303(?![\u0300-\u036f])))[\u0300-\u036f]+/gi,
+          "$1"
+        )
+        .normalize()
+    );
   return wordsWithSpecificLength;
 };
 
@@ -57,9 +65,4 @@ export const getGuess = (guess: string, answer: string): CharBoxStates[] => {
     answerCount.get(currentGuessChar)! - 1;
   });
   return result;
-};
-
-export const isValidWord = (word: string): boolean => {
-  const wordsWithSpecificLength = getWordsWithSpecificLength(5);
-  return wordsWithSpecificLength.concat(wordsWithSpecificLength).includes(word);
 };

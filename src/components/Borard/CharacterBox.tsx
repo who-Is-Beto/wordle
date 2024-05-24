@@ -3,22 +3,33 @@ import { CharBoxStates } from "../../enums";
 
 declare type CharacterBoxProps = {
   character: string;
+  isInModal: boolean;
   state: CharBoxState;
 };
 
 const CharBoxStatesStyles = new Map<CharBoxState, string>([
-  [CharBoxStates.hit, "bg-green-500"],
-  [CharBoxStates.present, "bg-yellow-500"],
-  [CharBoxStates.miss, "bg-gray-500"]
+  [CharBoxStates.hit, "green-box"],
+  [CharBoxStates.present, "yellow-box"],
+  [CharBoxStates.miss, "gray-miss-box"]
 ]);
 const CharacterBox: FC<CharacterBoxProps> = ({
   character,
-  state
+  state,
+  isInModal
 }): ReactNode => {
-  const style = state == null ? "" : CharBoxStatesStyles.get(state) ?? "";
+  const stateColor = CharBoxStatesStyles.get(state);
+  const style =
+    state == null
+      ? "bg-gray-empty text-dark-gray"
+      : `bg-${stateColor} border-${stateColor ? stateColor : "[1px]"}` ?? "";
+
+  const computedStyles = isInModal
+    ? "w-12 h-12"
+    : "w-14 h-14 text-white-box-letter ";
+
   return (
     <div
-      className={`border w-8 h-8 grid place-items-center uppercase font-bold ${style}`}
+      className={`${computedStyles} ${style} grid place-items-center uppercase text-2xl rounded-md font-bold`}
     >
       {character}
     </div>

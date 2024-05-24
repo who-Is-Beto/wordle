@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.light {
+  --color-empty-box: #939b9f4d;
+  --green-box: #66a060;
+  --yellow-box: #ceb02c;
+  --gray-miss-box: #939b9f;
+  --letter-box-active: #ffffff;
+  --light-gray: #dadce04d;
+  --mid-gray: #d3d6da;
+  --dark-gray: #56575e;
+  --general-bg: #ffffff;
+}
+
+.dark {
+  --color-empty-box: #939b9f33;
+  --green-box: #6aaa64;
+  --yellow-box: #ceb02c;
+  --gray-miss-box: #939b9f;
+  --letter-box-active: #ffffff;
+  --light-gray: #dadce008;
+  --mid-gray: #565f7e;
+  --dark-gray: #ffffff;
+  --general-bg: #262b3c;
+}
+
+body {
+  @apply bg-general-bg;
+}
