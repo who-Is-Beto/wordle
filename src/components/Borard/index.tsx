@@ -1,14 +1,18 @@
 import { FC, ReactNode } from "react";
 import WordRow from "../WordRow";
 
-const Borad: FC = (): ReactNode => {
+type BoardProps = {
+  rows: GuessRow[];
+};
+
+const Borad: FC<BoardProps> = ({ rows }): ReactNode => {
   return (
     <main className="flex flex-col gap-4">
-      <WordRow word="train" />
-      <WordRow word="paper" />
-      <WordRow word="hello" />
-      <WordRow word="piano" />
-      <WordRow word="i" />
+      {rows.map(
+        ({ guess, result }, index): JSX.Element => (
+          <WordRow key={index} word={guess} result={result} />
+        )
+      )}
     </main>
   );
 };
