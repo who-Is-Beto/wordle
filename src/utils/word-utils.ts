@@ -1,7 +1,7 @@
 import { CharBoxStates } from "../enums";
 import words from "../words.json";
 
-const getAWordWithSpecificLength = (length: number): string[] => {
+const getWordsWithSpecificLength = (length: number): string[] => {
   const wordsWithSpecificLength = (words as Array<string>).filter(
     (word) => word.length === length
   );
@@ -9,28 +9,23 @@ const getAWordWithSpecificLength = (length: number): string[] => {
 };
 
 export const getRandomWord = (): string => {
-  const filteredWords = getAWordWithSpecificLength(5);
+  const filteredWords = getWordsWithSpecificLength(5);
   const randomIndex = Math.floor(Math.random() * filteredWords.length);
   return filteredWords[randomIndex];
 };
 
-const defaultWord = getRandomWord();
-
-export const getGuess = (
-  guess: string,
-  answer: string = defaultWord
-): CharBoxState[] => {
-  const result: CharBoxState[] = [];
+export const getGuess = (guess: string, answer: string): CharBoxStates[] => {
+  const result: CharBoxStates[] = [];
   if (answer.length !== guess.length) return result;
-  const anwerCount = new Map<string, number>();
+  const answerCount = new Map<string, number>();
   const answerArray = answer.split("");
   const guessArray = guess.split("");
 
   guessArray.forEach((character, index) => {
     const currentChar = answerArray[index];
-    anwerCount.set(
+    answerCount.set(
       currentChar,
-      anwerCount.get(currentChar) ? anwerCount.get(currentChar)! + 1 : 1
+      answerCount.get(currentChar) ? answerCount.get(currentChar)! + 1 : 1
     );
 
     if (currentChar === character) {
@@ -54,12 +49,17 @@ export const getGuess = (
         result[resultIndex] = CharBoxStates.miss;
       }
 
-      if (anwerCount.get(currentGuessChar)! <= 0) {
+      if (answerCount.get(currentGuessChar)! <= 0) {
         result[resultIndex] = CharBoxStates.miss;
       }
     });
 
-    anwerCount.get(currentGuessChar)! - 1;
+    answerCount.get(currentGuessChar)! - 1;
   });
   return result;
+};
+
+export const isValidWord = (word: string): boolean => {
+  const wordsWithSpecificLength = getWordsWithSpecificLength(5);
+  return wordsWithSpecificLength.concat(wordsWithSpecificLength).includes(word);
 };
