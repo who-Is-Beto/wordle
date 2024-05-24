@@ -1,5 +1,5 @@
-import { CharBoxStates, StoreActionsTypes, themeModes } from "../enums";
-import { getGuess, getRandomWord } from "../utils/word-utils";
+import { StoreActionsTypes, themeModes } from "../enums";
+import { getRandomWord } from "../utils/word-utils";
 
 const setAnswer = (store: Store, answer: string): Store => {
   return {
