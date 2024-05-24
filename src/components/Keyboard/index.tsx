@@ -1,22 +1,23 @@
 import { FC, ReactNode } from "react";
 import { CharBoxStates } from "../../enums";
+import { getGuess } from "../../utils/word-utils";
 
 const keyboardKeys = [
   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-  ["", "a", "s", "d", "f", "g", "h", "j", "k", "l", ""],
-  ["Enter", "z", "x", "c", "v", "b", "n", "m", "Backspace"]
+  ["a", "s", "d", "f", "g", "h", "j", "k", "l", "ñ"],
+  ["enter", "z", "x", "c", "v", "b", "n", "m", "delete"]
 ];
 
 const keyStateStyles = new Map<CharBoxState, string>([
-  [CharBoxStates.hit, "bg-green-500"],
-  [CharBoxStates.present, "bg-yellow-500"],
-  [CharBoxStates.miss, "bg-gray-500"]
+  [CharBoxStates.hit, "bg-green-box"],
+  [CharBoxStates.present, "bg-yellow-box"],
+  [CharBoxStates.miss, "bg-gray-miss-box"]
 ]);
 
 const backspace = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-6 w-6"
+    className="h-6 w-12 mx-auto"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -32,12 +33,12 @@ const backspace = (
 
 type KeyboardProps = {
   onClick: (key: string) => void;
+  store: Store;
 };
 
-const Keyboard: FC<KeyboardProps> = ({ onClick }): ReactNode => {
+const Keyboard: FC<KeyboardProps> = ({ onClick, store }): ReactNode => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { textContent, innerHTML } = e.currentTarget;
-
     let returnProps = textContent!;
     if (textContent !== innerHTML) {
       returnProps = "Backspace";
@@ -45,27 +46,44 @@ const Keyboard: FC<KeyboardProps> = ({ onClick }): ReactNode => {
 
     onClick(returnProps);
   };
-  return (
-    <section>
-      {keyboardKeys.map((keyboardRow, rowIndex) => (
-        <div key={rowIndex} className="my-2 flex justify-center space-x-1">
-          {keyboardRow.map((key, index) => {
-            let styles = "rounded font-bold uppercase flex-1 py-2";
+  const result = getGuess(store.guess, store.answer);
 
-            const letterState = keyStateStyles.get(key as CharBoxState);
+  const keyboardLetterState = store.keyboardLetterState;
+  result.forEach((letter, index) => {
+    const resultGuessLetter = store.guess[index];
+
+    const currentLetterState = keyboardLetterState[resultGuessLetter];
+    switch (currentLetterState) {
+      case CharBoxStates.hit:
+        break;
+      case CharBoxStates.present:
+        break;
+      default:
+        keyboardLetterState[resultGuessLetter] = letter;
+        break;
+    }
+  });
+
+  return (
+    <section className="bg-light-gray w-full  rounded-lg p-4">
+      {keyboardKeys.map((keyboardRow, rowIndex) => (
+        <div
+          key={rowIndex}
+          className={`my-2 flex justify-center gap-1 ${
+            rowIndex === 1 && "px-3"
+          }`}
+        >
+          {keyboardRow.map((key, index) => {
+            const letterState = keyStateStyles.get(
+              keyboardLetterState[key.toLocaleUpperCase()]
+            );
+            let styles = `rounded-md gird m-0 duration-100 place-items-center font-medium uppercase flex-1 p-2 ${
+              !letterState && "bg-mid-gray"
+            } text-dark-gray active:-translate-y-6 active:scale-125`;
 
             if (letterState) {
               styles += " text-white px-1 " + letterState;
-            } else if (key !== "") {
-              styles += " bg-gray-400";
             }
-
-            if (key === "") {
-              styles += " pointer-events-none";
-            } else {
-              styles += " px-1";
-            }
-
             return (
               <button
                 onClick={handleClick}

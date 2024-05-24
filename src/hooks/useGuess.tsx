@@ -5,11 +5,10 @@ import { CharBoxStates, StoreActionsTypes } from "../enums";
 import { getGuess } from "../utils/word-utils";
 import usePreviousValue from "./usePreviousValue";
 
-const GUESS_CHANCES = 6;
+const GUESS_CHANCES = 5;
 
 const useGuess = () => {
   const [guess, setGuess] = useState<string>("");
-  const [invalidGuess, setInvalidGuess] = useState<boolean>(false);
   const {
     store: { answer, guess: globalGuess, rows: globalRows, gameState },
     dispatch
@@ -84,22 +83,13 @@ const useGuess = () => {
   }, [guess]);
 
   useEffect(() => {
-    let id: any;
-    if (invalidGuess) {
-      id = setTimeout(() => setInvalidGuess(false), 1500);
-    }
-
-    return () => clearTimeout(id);
-  }, [invalidGuess]);
-
-  useEffect(() => {
     if (guess.length === 0 && previousGuess?.length === WORD_LENGTH) {
       addGuess(previousGuess);
     }
   }, [guess]);
 
   useEffect(() => {
-    if (gameState === "playing") return;
+    if (gameState === "playing" || gameState === "paused") return;
     if (gameState === "won") {
       dispatch({ type: StoreActionsTypes.SET_VICTORIES });
     }

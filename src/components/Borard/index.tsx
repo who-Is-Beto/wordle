@@ -7,13 +7,13 @@ type BoardProps = {
 
 const Borad: FC<BoardProps> = ({ rows }): ReactNode => {
   return (
-    <main className="flex flex-col gap-4">
+    <section className="flex flex-col gap-2">
       {rows.map(
         ({ guess, result }, index): JSX.Element => (
-          <WordRow key={index} word={guess} result={result} />
+          <WordRow key={index} word={guess} isInModal={false} result={result} />
         )
       )}
-    </main>
+    </section>
   );
 };
 

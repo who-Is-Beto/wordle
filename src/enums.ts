@@ -9,10 +9,6 @@ export enum themeModes {
   light = "light"
 }
 
-export enum ActionTypes {
-  SWITCH_DARK_MODE = "SWITCH_DARK_MODE"
-}
-
 export enum StoreActionsTypes {
   SET_ANSWER,
   ADD_GUESS,
@@ -22,5 +18,8 @@ export enum StoreActionsTypes {
   NEW_GAME,
   SET_GAME_STATE,
   SET_VICTORIES,
-  SET_MATCHES_PLAYED
+  SET_MATCHES_PLAYED,
+  TOGGLE_SEE_INSTRUCTIONS,
+  SET_TIME_REMAINING,
+  SET_KEYBOARD_LETTER_STATE
 }

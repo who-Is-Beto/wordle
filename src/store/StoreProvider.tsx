@@ -24,6 +24,9 @@ const initialState: Store = JSON.parse(localStorage.getItem(APP_STATE_NAME)!)
       matchesPlayed: 0,
       victories: 0,
       rows: [],
+      timeRemaining: { minutes: 5, seconds: 0 },
+      seeInstructions: false,
+      keyboardLetterState: {},
       gameState: "playing",
       themeMode: "dark"
     };
