@@ -35,12 +35,12 @@ const App: FC = (): ReactNode => {
     });
 
     if (seconds === 0) {
-      setSeconds(60);
+      setSeconds(59);
       setMinutes(minutes - 1);
 
       if (minutes === 0) {
         dispatch({ type: StoreActionsTypes.NEW_GAME });
-        setMinutes(5);
+        setMinutes(4);
         return;
       }
     }

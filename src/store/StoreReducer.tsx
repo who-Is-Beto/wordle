@@ -37,7 +37,7 @@ const newGame = (store: Store): Store => {
     ...store,
     answer: getRandomWord().toLocaleUpperCase(),
     rows: [],
-    keyboardLetterState: {},
+    keyboardLetterState: {} as KeyboardLetterState,
     gameState: "playing",
     timeRemaining: {
       minutes: 5,
@@ -89,6 +89,19 @@ const setTimeRemaining = (store: Store, time: TimeRemaining): Store => {
   };
 };
 
+const setKeyboardLetterState = (
+  store: Store,
+  setKeyboardLetterState: KeyboardLetterState
+): Store => {
+  return {
+    ...store,
+    keyboardLetterState: {
+      ...store.keyboardLetterState,
+      [setKeyboardLetterState.foundLetter]: setKeyboardLetterState.state
+    }
+  };
+};
+
 const reducers = (state: Store, action: StoreActions): Store => {
   switch (action.type) {
     case StoreActionsTypes.UPDATE_GUESS:
@@ -113,6 +126,11 @@ const reducers = (state: Store, action: StoreActions): Store => {
       return setFirstTimePlaying(state);
     case StoreActionsTypes.SET_TIME_REMAINING:
       return setTimeRemaining(state, action.payload as TimeRemaining);
+    case StoreActionsTypes.SET_KEYBOARD_LETTER_STATE:
+      return setKeyboardLetterState(
+        state,
+        action.payload as KeyboardLetterState
+      );
 
     default:
       return state;

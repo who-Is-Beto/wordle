@@ -20,12 +20,12 @@ const CharacterBox: FC<CharacterBoxProps> = ({
   const stateColor = CharBoxStatesStyles.get(state);
   const style =
     state == null
-      ? "bg-gray-empty text-dark-gray"
-      : `bg-${stateColor} border-${stateColor ? stateColor : "[1px]"}` ?? "";
+      ? "bg-gray-empty"
+      : `bg-${stateColor || "gray-empty"} text-${
+          stateColor ? "white-box-letter" : "dark-gray"
+        } border-${stateColor ? stateColor : "[1px]"}` ?? "";
 
-  const computedStyles = isInModal
-    ? "w-12 h-12"
-    : "w-14 h-14 text-white-box-letter ";
+  const computedStyles = isInModal ? "w-12 h-12" : "w-14 h-14 ";
 
   return (
     <div

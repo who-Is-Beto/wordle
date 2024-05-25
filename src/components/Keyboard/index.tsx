@@ -1,11 +1,10 @@
 import { FC, ReactNode } from "react";
 import { CharBoxStates } from "../../enums";
-import { getGuess } from "../../utils/word-utils";
 
 const keyboardKeys = [
   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
   ["a", "s", "d", "f", "g", "h", "j", "k", "l", "ñ"],
-  ["enter", "z", "x", "c", "v", "b", "n", "m", "delete"]
+  ["Enter", "z", "x", "c", "v", "b", "n", "m", "delete"]
 ];
 
 const keyStateStyles = new Map<CharBoxState, string>([
@@ -36,7 +35,10 @@ type KeyboardProps = {
   store: Store;
 };
 
-const Keyboard: FC<KeyboardProps> = ({ onClick, store }): ReactNode => {
+const Keyboard: FC<KeyboardProps> = ({
+  onClick,
+  store: { keyboardLetterState }
+}): ReactNode => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { textContent, innerHTML } = e.currentTarget;
     let returnProps = textContent!;
@@ -46,23 +48,6 @@ const Keyboard: FC<KeyboardProps> = ({ onClick, store }): ReactNode => {
 
     onClick(returnProps);
   };
-  const result = getGuess(store.guess, store.answer);
-
-  const keyboardLetterState = store.keyboardLetterState;
-  result.forEach((letter, index) => {
-    const resultGuessLetter = store.guess[index];
-
-    const currentLetterState = keyboardLetterState[resultGuessLetter];
-    switch (currentLetterState) {
-      case CharBoxStates.hit:
-        break;
-      case CharBoxStates.present:
-        break;
-      default:
-        keyboardLetterState[resultGuessLetter] = letter;
-        break;
-    }
-  });
 
   return (
     <section className="bg-light-gray w-full  rounded-lg p-4">
@@ -82,7 +67,7 @@ const Keyboard: FC<KeyboardProps> = ({ onClick, store }): ReactNode => {
             } text-dark-gray active:-translate-y-6 active:scale-125`;
 
             if (letterState) {
-              styles += " text-white px-1 " + letterState;
+              styles += " text-white-box-letter px-1 " + letterState;
             }
             return (
               <button

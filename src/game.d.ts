@@ -16,6 +16,11 @@ declare type TimeRemaining = {
   seconds: number;
 };
 
+declare type KeyboardLetterState = {
+  foundLetter: CharBoxState;
+  state: CharBoxState;
+};
+
 declare interface Store {
   firstTimePlaying: boolean;
   answer: string;
@@ -24,7 +29,7 @@ declare interface Store {
   seeInstructions: boolean;
   victories: number;
   rows: GuessRow[];
-  keyboardLetterState: CharBoxState;
+  keyboardLetterState: KeyboardLetterState;
   gameState: GameStates;
   themeMode: themeModes;
   guess: string;

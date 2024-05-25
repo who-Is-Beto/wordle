@@ -10,7 +10,13 @@ const GUESS_CHANCES = 5;
 const useGuess = () => {
   const [guess, setGuess] = useState<string>("");
   const {
-    store: { answer, guess: globalGuess, rows: globalRows, gameState },
+    store: {
+      answer,
+      guess: globalGuess,
+      keyboardLetterState,
+      rows: globalRows,
+      gameState
+    },
     dispatch
   } = useContext(StoreContext);
   const previousGuess = usePreviousValue(globalGuess);
@@ -26,6 +32,27 @@ const useGuess = () => {
     const result = getGuess(wordToGuess, answer);
     const didWin = result.every((r) => r === CharBoxStates.hit);
 
+    result.forEach((letter, index) => {
+      const resultGuessLetter = globalGuess[index];
+
+      const currentLetterState =
+        keyboardLetterState[
+          resultGuessLetter as keyof typeof keyboardLetterState
+        ];
+
+      switch (currentLetterState) {
+        case CharBoxStates.hit:
+          break;
+        case CharBoxStates.present:
+          break;
+        default:
+          dispatch({
+            type: StoreActionsTypes.SET_KEYBOARD_LETTER_STATE,
+            payload: { foundLetter: resultGuessLetter, state: letter }
+          });
+          break;
+      }
+    });
     if (didWin) {
       dispatch({
         type: StoreActionsTypes.SET_GAME_STATE,
