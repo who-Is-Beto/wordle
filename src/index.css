@@ -27,5 +27,5 @@
 }
 
 body {
-  @apply bg-general-bg;
+  @apply bg-general-bg flex justify-center items-center h-screen w-screen;
 }

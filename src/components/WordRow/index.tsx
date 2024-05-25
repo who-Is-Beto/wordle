@@ -29,7 +29,7 @@ const WordRow: FC<WordRowProps> = ({
       />
     ));
 
-  return <div className="flex gap-2 w-full">{letters}</div>;
+  return <div className="flex justify-center gap-2 w-full">{letters}</div>;
 };
 
 export default WordRow;

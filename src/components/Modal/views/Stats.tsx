@@ -32,9 +32,9 @@ const Stats: FC<StatsProps> = ({
       : closeModal;
   };
   return (
-    <section className="bg-general-bg text-dark-gray py-6 z-20 grid place-items-center gap-4 border border-dark-gray absolute w-10/12 m-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md ">
+    <section className="bg-general-bg text-dark-gray py-16 px-8 z-20 grid place-items-center gap-4 border border-dark-gray absolute max-w-96 m-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md ">
       <h2 className="text-xl font-bold">Estadísticas</h2>
-      <div className="flex justify-around w-full">
+      <div className="flex gap-x-52 w-full">
         <div className="grid place-items-center">
           <b className="text-2xl">{matchesPlayed}</b>
           <span className="text-sm font-normal">Jugadas</span>

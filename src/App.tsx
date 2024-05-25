@@ -55,7 +55,7 @@ const App: FC = (): ReactNode => {
 
   return (
     <main
-      className={`duration-500 w-full h-screen flex flex-col justify-between items-center bg-general-bg py-6 md:px-[25%] md:mx-auto`}
+      className={`duration-500 w-full h-full gap-y-8 flex flex-col justify-between items-center bg-general-bg`}
     >
       <Header />
       <Borad rows={rows} />
