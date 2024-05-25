@@ -60,7 +60,9 @@ const Keyboard: FC<KeyboardProps> = ({
         >
           {keyboardRow.map((key, index) => {
             const letterState = keyStateStyles.get(
-              keyboardLetterState[key.toLocaleUpperCase()]
+              keyboardLetterState[
+                key.toLocaleUpperCase() as keyof KeyboardLetterState
+              ]
             );
             let styles = `rounded-md gird m-0 duration-100 place-items-center font-medium uppercase flex-1 p-2 ${
               !letterState && "bg-mid-gray"
